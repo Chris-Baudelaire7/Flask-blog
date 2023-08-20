@@ -19,19 +19,20 @@ def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(Config)
     
-    db.init_app(app)
-    bcrypt.init_app(app)
-    login_manager.init_app(app)
-    mail.init_app(app)
-    
-    from apps.main.routes import main
-    from apps.users.routes import users
-    from apps.posts.routes import posts
-    from apps.errors.handlers import errors
+    with app.app_context():
+        db.init_app(app)
+        bcrypt.init_app(app)
+        login_manager.init_app(app)
+        mail.init_app(app)
+        
+        from apps.main.routes import main
+        from apps.users.routes import users
+        from apps.posts.routes import posts
+        from apps.errors.handlers import errors
 
-    app.register_blueprint(main)
-    app.register_blueprint(users)
-    app.register_blueprint(posts)
-    app.register_blueprint(errors)
-    
-    return app
+        app.register_blueprint(main)
+        app.register_blueprint(users)
+        app.register_blueprint(posts)
+        app.register_blueprint(errors)
+        
+        return app
