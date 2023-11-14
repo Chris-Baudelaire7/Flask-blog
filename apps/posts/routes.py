@@ -4,6 +4,7 @@ from apps import db
 from apps.posts.forms import PostForm
 from apps.models import Post
 
+
 posts = Blueprint("posts", __name__)
 
 @posts.route("/post/new", methods=["POST", "GET"])
@@ -18,10 +19,12 @@ def create_post():
         return redirect(url_for('main.home'))
     return render_template("create_post.html", title="new-post", form=form, legend="Create post")
 
+
 @posts.route("/post/<int:post_id>")
 def post(post_id):
     post = Post.query.get_or_404(post_id)
     return render_template("post.html", title="Post details", post=post)
+
 
 @posts.route("/post/<int:post_id>/update", methods=["GET", "POST"])
 @login_required
@@ -41,6 +44,7 @@ def update_post(post_id):
         form.title.data = post.title
         form.content.data = post.content
     return render_template("create_post.html", title="Update post", form=form, legend="Update post")
+
 
 @posts.route("/post/<int:post_id>/delete", methods=["POST"])
 @login_required
